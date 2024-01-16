@@ -56,7 +56,7 @@ const bookInfo = ref<book_response>();
 const getBookData = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3002/books?id=${bookId.value}`,
+      `${import.meta.env.VITE_API_URL}/books?id=${bookId.value}`,
       {
         headers: {
           "Content-Type": "application/json",

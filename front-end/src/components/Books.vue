@@ -50,14 +50,13 @@ interface book_response {
   editorial: string;
   bookcover: string;
 }
-
 const bookData = ref<book_response[]>([]);
 const userStore = useUserStore();
 const router = useRouter();
 
 const fetchBookData = async () => {
   try {
-    const response = await axios.get("http://localhost:3002/books", {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/books`, {
       headers: {
         "Content-Type": "application/json",
       },
