@@ -11,12 +11,6 @@ interface UserState {
   token: string;
 }
 
-declare module "pinia" {
-  export interface PiniaCustomProperties {
-    $user: ReturnType<typeof useUserStore>;
-  }
-}
-
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
     id: "",
