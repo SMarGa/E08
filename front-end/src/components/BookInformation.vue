@@ -19,11 +19,14 @@
         <v-card-text v-if="bookInfo">
           <p class="Text_title">Título</p>
           <p class="text">{{ bookInfo.book_name }}</p>
+        </v-card-text>
+        <v-card-text v-if="bookInfo">
           <p class="Text_title">Año de publicación</p>
           <p class="text">
             {{ bookInfo.release_year }}
           </p>
-
+        </v-card-text>
+        <v-card-text v-if="bookInfo">
           <p class="Text_title">Descripción</p>
           <p class="text">
             {{ bookInfo.description }}
@@ -200,13 +203,11 @@ export default {
 }
 
 .text {
-  font-size: 1.9vw;
-  margin-bottom: 0.5rem;
+  font-size: 1.3vw;
 }
 .Text_title {
   color: red;
-  font-size: 2.1vw;
-  padding: 1.3rem;
+  font-size: 1.7vw;
   border-radius: 1rem;
 }
 
