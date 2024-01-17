@@ -40,8 +40,8 @@ describe("Comment Routes", () => {
     it("should register a new comment", async () => {
       await request(app).delete("");
       const response = await request(app).post("/comments").send({
-        book_referenced: defaultBook.id,
-        author: "Samu",
+        book_referenced: 12,
+        author: "defaultUser.id",
         comment: "Test",
       });
       expect(response.status).to.equal(201);
@@ -64,6 +64,19 @@ describe("Comment Routes", () => {
         "Comment ID already exists"
       );
     });
+    it("should handle errors (existing comment)", async () => {
+      await request(app).delete("");
+      const response = await request(app).post("/comments").send({
+        book_referenced: "libro",
+        author: defaultUser.id,
+        comment: "Test",
+      });
+      expect(response.status).to.equal(500);
+      expect(response.body).to.have.property(
+        "message",
+        "Internal Server Error"
+      );
+    });
   });
 
   describe("GET /comments/:book_referenced", () => {
@@ -77,11 +90,15 @@ describe("Comment Routes", () => {
       const response = await request(app).get("/comments/12");
       expect(response.status).to.equal(404);
     });
+    it("It should handle errors", async () => {
+      const response = await request(app).get("/comments/lalan");
+      expect(response.status).to.equal(500);
+    });
   });
 
   describe("DELETE /comments/:id", () => {
     it("should delete a comment", async () => {
-      const response = await request(app).delete("/comments/testo");
+      const response = await request(app).delete("/comments/testo/0");
 
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property(

@@ -29,7 +29,7 @@
     </v-row>
 
     <v-row justify="center">
-      <v-card class="mx-auto mt-5 elevation-24 card">
+      <v-card v-if="!hasComment" class="mx-auto mt-5 elevation-24 card">
         <v-card-title class="title_style">Añade tu comentario</v-card-title>
 
         <v-card-text>
@@ -41,12 +41,21 @@
           <br />
         </v-card-text>
       </v-card>
+      <v-card v-else class="mx-auto mt-5 elevation-24 card">
+        <v-card-title class="title_style">Elimina tu comentario</v-card-title>
+        <v-card-text>
+          <v-btn class="bg-red white--text" @click="deleteComment"
+            >Eliminar
+          </v-btn>
+          <br />
+        </v-card-text>
+      </v-card>
     </v-row>
 
     <v-row justify="center">
       <v-col
         v-for="comment in bookComments"
-        :key="comment.id"
+        :key="comment.author"
         cols="12"
         xs12
         sm6
@@ -71,9 +80,15 @@ import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store/userStore";
-const UserStore = useUserStore();
+
 const assets_url = `${import.meta.env.VITE_ASSETS_URL}`;
-const userID = UserStore._id;
+
+interface comment_response {
+  book_referenced: string;
+  author: string;
+  comment: string;
+}
+
 interface book_response {
   id: number;
   description: string;
@@ -86,16 +101,18 @@ interface book_response {
 }
 const route = useRoute();
 const bookInfo = ref<book_response>();
-const bookComments = ref();
+const bookComments = ref<comment_response[]>();
 
 export default {
   data() {
     return {
+      userStore: useUserStore(),
+      loggedUserID: "",
       bookId: "",
+      hasComment: false,
       bookInfo,
       bookcover: "",
       bookComments,
-      userID,
       assets_url,
       comment: "",
       warning: false,
@@ -114,7 +131,7 @@ export default {
       } else {
         const book_id = this.bookId;
         const coment_content = this.comment;
-        const user_id = this.userID;
+        const user_id = this.userStore._id;
 
         try {
           const response = await axios.post(
@@ -170,8 +187,34 @@ export default {
           }
         );
         this.bookComments = response.data.data;
+
+        if (this.bookComments != undefined) {
+          this.bookComments.forEach((comment) => {
+            if (comment.author == this.userStore._id) {
+              this.hasComment = true;
+            }
+          });
+        }
       } catch (error) {
         this.bookComments = undefined;
+        console.error(error);
+      }
+    },
+
+    async deleteComment() {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API_URL}/comments/${this.userStore._id}/${
+            this.bookId
+          }`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        location.reload();
+      } catch (error) {
         console.error(error);
       }
     },
@@ -179,12 +222,13 @@ export default {
 
   async created() {
     this.bookId = this.$route.params.id as string;
+    this.userStore = await useUserStore();
+    await this.userStore.reloadInfo();
     await this.fetchBookData();
     await this.fetchComments();
     if (bookInfo.value != undefined) {
       this.bookcover = `${assets_url}${bookInfo.value.bookcover}`;
     }
-    console.log(this.bookcover);
   },
 };
 </script>
@@ -203,11 +247,12 @@ export default {
 
 .text {
   font-size: 1.3vw;
+  padding: 1.3vw;
 }
 .Text_title {
   color: red;
   font-size: 1.7vw;
-  border-radius: 1rem;
+  padding: auto;
 }
 
 .bookcover {
@@ -218,6 +263,7 @@ export default {
 }
 
 .title_style {
+  padding: 1.7vw;
   font-size: 2.7vw;
 }
 

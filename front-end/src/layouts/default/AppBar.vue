@@ -1,6 +1,6 @@
 <template>
   <v-app-bar color="red darken-2">
-    <v-app-bar-title class="nav-bar-title">E-Biblio</v-app-bar-title>
+    <v-app-bar-title class="nav-bar-title">R&W</v-app-bar-title>
     <v-spacer></v-spacer>
     <v-app-bar-nav-icon
       class="nav-bar-icon hidden-md-and-up"

@@ -5,15 +5,30 @@ export const commentRouter = express.Router();
 
 commentRouter.post("/comments", async (req, res) => {
   try {
-    const newcomment = new Comment(req.body);
-    await newcomment.save();
-    return res
-      .status(201)
-      .send({ message: "Successfully added comment", newcomment });
+    const { book_referenced, author, comment } = new Comment(req.body);
+    const isCommentedBefore = await Comment.exists({
+      book_referenced: book_referenced,
+      author: author,
+    });
+
+    if (isCommentedBefore !== null) {
+      return res.status(400).json({ message: "Comment ID already exists" });
+    } else {
+      const newComment = new Comment({
+        book_referenced: book_referenced,
+        author: author,
+        comment: comment,
+      });
+
+      await newComment.save();
+      return res
+        .status(201)
+        .send({ message: "Successfully added comment", newComment });
+    }
   } catch (error) {
     res
-      .status(400)
-      .json({ message: "Comment ID already exists", error: error });
+      .status(500)
+      .json({ message: "Internal Server Error", error: error, body: req.body });
   }
 });
 
@@ -47,25 +62,32 @@ commentRouter.get("/comments/:book_id", async (req, res) => {
   }
 });
 
-commentRouter.delete("/comments/:id", async (req, res) => {
+commentRouter.delete("/comments/:id/:book_referenced", async (req, res) => {
   try {
-    if (!req.params.id) {
+    if (!req.params.id || !req.params.book_referenced) {
       return res.status(400).send({
-        message: "A id must be provided",
+        message: "Both id and book_referenced must be provided",
         code: 0,
       });
     }
-    const comments = await Comment.find({ author: req.params.id });
+    const comments = await Comment.find({
+      author: req.params.id,
+      book_referenced: req.params.book_referenced,
+    });
+
     if (comments.length !== 0) {
       for (let i = 0; i < comments.length; i++) {
-        // Deletes an book
+        // Deletes a comment
         const deletedComment = await Comment.findByIdAndDelete(comments[i]._id);
       }
+
       // Sends the result to the client
       return res.status(200).send({
         message: "Comment successfully deleted",
+        code: 0,
       });
     }
+
     return res.status(404).send({ message: "Comment not found" });
   } catch (error) {
     return res.status(500).send({ message: "Internal Server Error" });

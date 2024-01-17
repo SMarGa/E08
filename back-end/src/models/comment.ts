@@ -18,7 +18,6 @@ const CommentSchema = new Schema<CommentDocumentInterface>({
     type: String,
     required: true,
     ref: "User",
-    unique: true,
   },
   comment: {
     type: String,
@@ -30,6 +29,7 @@ const CommentSchema = new Schema<CommentDocumentInterface>({
     },
   },
 });
+
 
 export const Comment = model<CommentDocumentInterface>(
   "Comment",
