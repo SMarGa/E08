@@ -9,8 +9,8 @@ describe("Login Component", () => {
     // Check if the login form elements are present
     cy.get(".logo_pr").should("be.visible");
     cy.contains("Log In").should("be.visible");
-    cy.contains("Username").should("be.visible");
-    cy.contains("Password").should("be.visible");
+    cy.contains("Nombre de usuario").should("be.visible");
+    cy.contains("Contraseña").should("be.visible");
     cy.get(".login_btn").should("be.visible");
   });
 

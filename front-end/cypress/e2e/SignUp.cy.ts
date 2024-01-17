@@ -24,7 +24,7 @@ describe("Signup Page", () => {
     // Delete user to assert replication
     cy.visit("https://re-w-e08.netlify.app/profile");
     cy.get("[data-cy=delete-btn]").click();
-    cy.contains("Inicio de sesión exitoso").should("be.visible");
+    cy.contains("Usuario eliminado correctamente").should("be.visible");
     cy.url().should("include", "/login");
   });
 
