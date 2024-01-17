@@ -156,6 +156,7 @@ export default {
           }
         );
         this.bookInfo = response.data.data[0];
+        console.log(response);
       } catch (error) {
         console.error(error);
       }
