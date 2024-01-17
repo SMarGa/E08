@@ -7,7 +7,7 @@
         </v-card-title>
         <v-img
           v-if="bookInfo"
-          :src="`${assets_url}${bookInfo.bookcover}`"
+          :src="bookcover"
           :id="bookInfo.id"
           alt="Book Cover"
           max-width="55%"
