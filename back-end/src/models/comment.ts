@@ -1,38 +1,37 @@
 import { Document, Schema, model } from "mongoose";
-import { BookDocumentInterface} from "./book.js"
-import { UserDocumentInterface } from "./user.js"
+import { BookDocumentInterface } from "./book.js";
+import { UserDocumentInterface } from "./user.js";
 
 export interface CommentDocumentInterface extends Document {
-  comment_id: number;
-  book_referenced: BookDocumentInterface;
-  author: UserDocumentInterface;
+  book_referenced: BookDocumentInterface["id"];
+  author: UserDocumentInterface["id"];
   comment: string;
 }
 
-const CommentSchema = new Schema<CommentDocumentInterface> ({
-  comment_id: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
+const CommentSchema = new Schema<CommentDocumentInterface>({
+  book_referenced: {
+    type: Number,
+    required: true,
+    ref: "Book",
+  },
   author: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
+    type: String,
+    required: true,
+    ref: "User",
+    unique: true,
+  },
   comment: {
-      type: String,
-      required: true,
-      validate: (content : string) => {
-        if (content.length > 300) {
-          throw new Error("Comment must be lower than 300 chars");
-        }
+    type: String,
+    required: true,
+    validate: (content: string) => {
+      if (content.length > 300) {
+        throw new Error("Comment must be lower than 300 chars");
       }
     },
-  book_referenced: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Book",
-    },
-  }
-)
+  },
+});
+
+export const Comment = model<CommentDocumentInterface>(
+  "Comment",
+  CommentSchema
+);

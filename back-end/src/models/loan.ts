@@ -4,8 +4,8 @@ import { UserDocumentInterface } from "./user.js";
 
 export interface LoanDocumentInterface extends Document {
   id: number;
-  book_id: BookDocumentInterface;
-  user_id: UserDocumentInterface;
+  book_id: BookDocumentInterface["id"];
+  user_id: UserDocumentInterface["id"];
   loan_date: Date;
   return_date: Date;
 }
@@ -17,12 +17,12 @@ const LoanSchema = new Schema<LoanDocumentInterface>({
     unique: true,
   },
   book_id: {
-    type: Schema.Types.ObjectId,
+    type: Number,
     required: true,
     ref: "Book",
   },
   user_id: {
-    type: Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: "User",
   },
@@ -39,8 +39,8 @@ const LoanSchema = new Schema<LoanDocumentInterface>({
     type: Date,
     default: () => getReturnDate(getCurrentDate()), // Utiliza la función para obtener la fecha tres meses después
     validate: (value: Date) => {
-      if (value > new Date()) {
-        throw new Error("Future date not permitted");
+      if (value < getCurrentDate()) {
+        throw new Error("Past date not permitted");
       }
     },
   },

@@ -1,6 +1,33 @@
 <template>
   <v-app class="bg_image">
-    <v-card class="mx-auto mt-5" outlined>
+    <v-card v-if="islogged" class="mx-auto mt-5" outlined>
+      <div class="d-flex flex-column align-center justify-center">
+        <v-img
+          src="@/assets/logo_libro.png"
+          :width="300"
+          contain
+          class="logo_pr"
+        ></v-img>
+
+        <p>R&W</p>
+      </div>
+      <br />
+      <v-card-title class="text-h5">Inicio de sesión exitoso</v-card-title>
+      <br />
+      <div class="d-flex justify-center">
+        <v-btn
+          data-cy="continue"
+          color="red"
+          class="login_btn"
+          @click="goHome()"
+        >
+          Volver al inicio
+        </v-btn>
+      </div>
+      <br />
+    </v-card>
+
+    <v-card v-else class="mx-auto mt-5" outlined>
       <div class="d-flex flex-column align-center justify-center">
         <v-img
           data-cy="logo_pr"
@@ -16,41 +43,28 @@
       <p class="mx-auto ml-5">Hi there! Nice to meet you.</p>
 
       <v-card-text>
-        <form @submit.prevent="submit">
+        <form @submit.prevent="singUp">
           <p class="mx-auto text-red">Full Name</p>
-          <v-text-field
-            data-cy="full_name"
-            v-model="full_name.value.value"
-            :counter="10"
-            :error-messages="full_name.errorMessage.value"
-          ></v-text-field>
+          <v-text-field data-cy="full_name" v-model="full_name"></v-text-field>
           <p class="mx-auto text-red">User Name</p>
-          <v-text-field
-            data-cy="username"
-            v-model="id.value.value"
-            :counter="10"
-            :error-messages="id.errorMessage.value"
-          ></v-text-field>
+          <v-text-field data-cy="username" v-model="id"></v-text-field>
           <p class="mx-auto text-red">Password</p>
           <v-text-field
             data-cy="password"
-            v-model="password.value.value"
+            v-model="password"
             type="password"
-            :error-messages="password.errorMessage.value"
           ></v-text-field>
           <p class="mx-auto text-red">E-mail</p>
           <v-text-field
             data-cy="mail"
-            v-model="mail.value.value"
-            :error-messages="mail.errorMessage.value"
+            v-model="mail"
             type="mail"
           ></v-text-field>
           <p class="mx-auto text-red">Birth Date</p>
           <v-text-field
             data-cy="date"
-            v-model="birth_date.value.value"
+            v-model="birth_date"
             type="date"
-            :error-messages="birth_date.errorMessage.value"
           ></v-text-field>
 
           <v-btn
@@ -62,92 +76,86 @@
             Sing up
           </v-btn>
         </form>
+
+        <br />
+
+        <v-alert v-if="missing_info" type="warning" closable>
+          Tienes que rellenar todos los campos
+        </v-alert>
+
+        <v-alert v-if="show_alert" type="error" closable>
+          {{ alert_message }}
+        </v-alert>
       </v-card-text>
     </v-card>
   </v-app>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from "vue-router";
-import axios from "axios";
-import { useField, useForm } from "vee-validate";
+<script lang="ts">
+import router from "@/router";
 import { useUserStore } from "@/store/userStore";
-
-const userStore = useUserStore();
-
-const { handleSubmit, handleReset } = useForm({
-  validationSchema: {
-    full_name(value: string) {
-      if (value?.length >= 2) return true;
-
-      return "Name needs to be at least 2 characters.";
+const UserStore = useUserStore();
+export default {
+  data() {
+    return {
+      full_name: "",
+      id: "",
+      mail: "",
+      birth_date: new Date("1/1/1"),
+      password: "",
+      isLoading: false,
+      missing_info: false,
+      alert_message: "",
+      show_alert: false,
+      logged: false,
+    };
+  },
+  methods: {
+    async singUp() {
+      this.missing_info = false;
+      this.isLoading = true;
+      this.show_alert = false;
+      this.alert_message = "";
+      if (
+        this.id === "" ||
+        this.password === "" ||
+        this.mail === "" ||
+        this.full_name === "" ||
+        this.birth_date.toString() === new Date("1/1/1").toString()
+      ) {
+        this.missing_info = true;
+        this.isLoading = false;
+        return;
+      }
+      const response = await UserStore.registerUser(
+        this.full_name,
+        this.id,
+        this.mail,
+        this.birth_date,
+        this.password
+      );
+      if (response.code == 1) {
+        this.show_alert = true;
+        this.alert_message = response.message;
+        this.isLoading = false;
+        return;
+      }
+      this.isLoading = false;
+      this.logged = true;
+      location.reload();
+      return;
     },
-    id(value: string) {
-      if (value?.length >= 2) return true;
-
-      return "User Name needs to be at least 2 characters.";
-    },
-
-    mail(value: string) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true;
-
-      return "Must be a valid e-mail.";
-    },
-
-    birth_date(value: Date) {
-      return true;
-    },
-    password(value: string) {
-      return true;
+    goHome() {
+      router.push("/home");
     },
   },
-});
-const full_name = useField("full_name");
 
-const id = useField("id");
-
-const mail = useField("mail");
-
-const password = useField("password");
-
-const router = useRouter();
-
-const birth_date = useField("birth_date");
-
-const submit = handleSubmit(async (values) => {
-  const user_info = JSON.stringify(values, null, 2);
-  await registerUser(user_info);
-});
-
-async function registerUser(user: string) {
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/signup`,
-      user,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (response.status == 201) {
-      alert("Sign up succesfull");
-      const userInfo = JSON.parse(user);
-      const token = response.data.token;
-
-      userStore.setUserInfo(userInfo, token);
-
-      location.reload();
-      router.push("/home");
-    } else {
-      console.log(response.data.message);
-    }
-  } catch (error: any) {
-    alert(error.response.data.message);
-    console.error("Error on login:", error.response.data.message);
-  }
-}
+  computed: {
+    islogged() {
+      return !UserStore.checkExpired();
+    },
+  },
+};
 </script>
 
 <style scoped>

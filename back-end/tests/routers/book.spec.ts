@@ -144,8 +144,7 @@ describe("Book Routes", () => {
     });
 
     it("should handle errors when deleting a book", async () => {
-      // Attempt to delete with an invalid ID or unauthorized user
-      const response = await request(app).delete("/books?id=1000");
+      const response = await request(app).delete("/books/1000");
 
       expect(response.status).to.equal(404);
     });

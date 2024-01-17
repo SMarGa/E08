@@ -1,6 +1,34 @@
 <template>
   <v-app class="bg_image">
-    <v-card class="mx-auto mt-5" outlined>
+    <v-card v-if="islogged" class="mx-auto mt-5" outlined>
+      <div class="d-flex flex-column align-center justify-center">
+        <v-img
+          src="@/assets/logo_libro.png"
+          :width="300"
+          contain
+          class="logo_pr"
+        ></v-img>
+
+        <p>R&W</p>
+      </div>
+      <br />
+      <v-card-title class="text-h5">Inicio de sesión exitoso</v-card-title>
+      <br />
+      <div class="d-flex justify-center">
+        <v-btn
+          data-cy="continue"
+          color="red"
+          class="login_btn"
+          @click="goHome()"
+        >
+          Volver al inicio
+        </v-btn>
+      </div>
+
+      <br />
+    </v-card>
+
+    <v-card v-else class="mx-auto mt-5" outlined>
       <div class="d-flex flex-column align-center justify-center">
         <v-img
           src="@/assets/logo_libro.png"
@@ -16,19 +44,14 @@
       <p class="mx-auto ml-5">Hi there! Nice to see you again.</p>
 
       <v-card-text>
-        <v-form @submit.prevent="submit">
+        <v-form @submit.prevent="LogIn">
           <p class="mx-auto text-red">Username</p>
-          <v-text-field
-            data-cy="username"
-            v-model="id.value.value"
-            :error-messages="id.errorMessage.value"
-          ></v-text-field>
+          <v-text-field data-cy="username" v-model="id"></v-text-field>
           <p class="mx-auto text-red">Password</p>
           <v-text-field
             data-cy="password"
-            v-model="password.value.value"
+            v-model="password"
             type="password"
-            :error-messages="password.errorMessage.value"
           ></v-text-field>
 
           <div class="d-flex justify-center">
@@ -47,85 +70,76 @@
             </v-btn>
           </div>
         </v-form>
+
+        <br />
+
+        <v-alert v-if="missing_info" type="warning" closable>
+          Usuario y Contraseña obligatorios
+        </v-alert>
+
+        <v-alert v-if="show_alert" type="error" closable>
+          {{ alert_message }}
+        </v-alert>
       </v-card-text>
     </v-card>
   </v-app>
 </template>
 
-<script setup lang="ts">
-import axios from "axios";
-import { ref } from "vue";
-import { useField, useForm } from "vee-validate";
-import { useRouter } from "vue-router";
+<script lang="ts">
 import { useUserStore } from "@/store/userStore";
+import router from "@/router";
+import PopUpLogIn from "@/components/PopUpLogIn.vue";
+import { Ref } from "vue";
+const UserStore = useUserStore();
 
-const userStore = useUserStore();
+export default {
+  data: () => ({
+    id: "",
+    password: "",
+    isLoading: false,
+    missing_info: false,
+    alert_message: "",
+    show_alert: false,
+    logged: false,
+  }),
 
-const { handleSubmit } = useForm({
-  validationSchema: {
-    id(value: string) {
-      if (value?.length >= 2) return true;
-
-      return "User Name needs to be at least 2 characters.";
-    },
-
-    password(value: string) {
-      if (value?.length >= 4) return true;
-
-      return "Password needs to be at least 4 characters.";
+  computed: {
+    islogged() {
+      return !UserStore.checkExpired();
     },
   },
-});
 
-const id = useField("id");
-const password = useField("password");
-
-const router = useRouter();
-
-const isLoading = ref(false);
-
-const submit = handleSubmit(async (values) => {
-  const { id, password } = values;
-  isLoading.value = true;
-
-  if (await loginUser(id, password)) {
-    alert("Logged In");
-    router.push("/");
-    location.reload();
-  } else {
-    alert("Invalid credentials");
-  }
-});
-
-async function loginUser(id: string, password: string): Promise<Boolean> {
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/login`,
-      {
-        id,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
+  methods: {
+    async LogIn() {
+      this.missing_info = false;
+      this.isLoading = true;
+      this.show_alert = false;
+      this.alert_message = "";
+      if (this.id == "" || this.password == "") {
+        this.missing_info = true;
+        this.isLoading = false;
+        return;
       }
-    );
-    if (response.status === 200) {
-      const token = response.data.token;
-      const user = response.data.user;
-
-      userStore.setUserInfo(user, token);
-      return true;
-    } else {
-      console.log(response.data.message);
-      return false;
-    }
-  } catch (error: any) {
-    console.error("Error on login:", error);
-    return false;
-  }
-}
+      const response = await UserStore.logUserIn(this.id, this.password);
+      if (response.code == 1) {
+        this.show_alert = true;
+        this.alert_message = response.message;
+        this.isLoading = false;
+        return;
+      }
+      this.isLoading = false;
+      this.logged = true;
+      location.reload();
+      return;
+    },
+    goHome() {
+      router.push("/home");
+    },
+  },
+  components: {
+    PopUpLogIn,
+  },
+};
 </script>
 
 <style scoped>
@@ -135,7 +149,7 @@ async function loginUser(id: string, password: string): Promise<Boolean> {
 }
 
 .login_btn {
-  width: 100%;
+  width: 75%;
 }
 
 .bg_image {

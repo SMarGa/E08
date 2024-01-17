@@ -39,7 +39,9 @@ groupRouter.get("/groups", async (req, res) => {
         members: group.members,
       }));
 
-      return res.status(200).send({ message: "List with groups", data: groupsInfo });
+      return res
+        .status(200)
+        .send({ message: "List with groups", data: groupsInfo });
     } else {
       return res.status(404).send({ message: "No groups available" });
     }
@@ -116,7 +118,7 @@ groupRouter.delete("/groups/:id", async (req, res) => {
     if (groups.length !== 0) {
       for (let i = 0; i < groups.length; i++) {
         // Deletes an group
-        const deletedGroup= await Group.findByIdAndDelete(groups[i]._id);
+        const deletedGroup = await Group.findByIdAndDelete(groups[i]._id);
       }
       // Sends the result to the client
       return res.status(200).send({
