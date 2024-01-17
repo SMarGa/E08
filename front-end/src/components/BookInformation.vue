@@ -156,7 +156,6 @@ export default {
           }
         );
         this.bookInfo = response.data.data[0];
-        console.log(response);
       } catch (error) {
         console.error(error);
       }
@@ -180,10 +179,10 @@ export default {
     },
   },
 
-  created() {
+  async created() {
     this.bookId = this.$route.params.id as string;
-    this.fetchBookData();
-    this.fetchComments();
+    await this.fetchBookData();
+    await this.fetchComments();
   },
 };
 </script>
