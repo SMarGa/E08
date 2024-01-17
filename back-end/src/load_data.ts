@@ -31,7 +31,7 @@ const book_Alicia = {
 const book_AnaFrank = {
   id: 13,
   description: "aaa",
-  book_name: "1947",
+  book_name: "Diario de Ana Frank",
   author: "Ana Frank",
   genres: [" a ", " a "],
   release_year: 1949,

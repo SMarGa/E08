@@ -96,6 +96,7 @@ export default {
     return {
       bookId: "",
       bookInfo,
+      bookcover: "",
       bookComments,
       userID,
       assets_url,
@@ -183,6 +184,10 @@ export default {
     this.bookId = this.$route.params.id as string;
     await this.fetchBookData();
     await this.fetchComments();
+    if (bookInfo.value != undefined) {
+      this.bookcover = `${assets_url}${bookInfo.value.bookcover}`;
+    }
+    console.log(this.bookcover);
   },
 };
 </script>
