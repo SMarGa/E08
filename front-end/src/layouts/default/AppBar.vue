@@ -1,12 +1,15 @@
 <template>
   <v-app-bar color="red darken-2">
-    <v-app-bar-title class="nav-bar-title">R&W</v-app-bar-title>
+    <v-app-bar-title @click="router.push('/home')" class="nav-bar-title"
+      >R&W</v-app-bar-title
+    >
     <v-spacer></v-spacer>
     <v-app-bar-nav-icon
       class="nav-bar-icon hidden-md-and-up"
       variant="text"
       @click.stop="drawer = !drawer"
-    ></v-app-bar-nav-icon>
+    >
+    </v-app-bar-nav-icon>
     <v-btn
       v-if="!userIsLogged"
       v-for="item in items_not_auth"
