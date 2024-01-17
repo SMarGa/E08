@@ -16,12 +16,18 @@ describe("Login Component", () => {
 
   it("should show validation errors for invalid input", () => {
     // Submit the form without filling anything
-    cy.get(".login_btn").click();
 
     // Check if validation error messages are displayed
+    cy.get('[data-cy="username"]').type("s");
+    cy.get('[data-cy="password"]').type("1");
+    cy.get(".login_btn").click();
     cy.contains("User Name needs to be at least 2 characters.").should(
       "be.visible"
     );
+
+    cy.get('[data-cy="username"]').type("saaaa");
+    cy.get('[data-cy="password"]').type("1");
+    cy.get(".login_btn").click();
     cy.contains("Password needs to be at least 4 characters.").should(
       "be.visible"
     );

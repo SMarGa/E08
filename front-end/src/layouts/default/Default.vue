@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="bg_image">
     <default-bar />
 
     <default-view />
@@ -13,3 +13,10 @@ import DefaultBar from "./AppBar.vue";
 import DefaultView from "./View.vue";
 import DefaultFooter from "./Footer.vue";
 </script>
+
+<style scoped>
+.bg_image {
+  background: url("/fondo_rojo.avif");
+  background-size: cover;
+}
+</style>

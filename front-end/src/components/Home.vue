@@ -2,17 +2,14 @@
   <v-container fluid>
     <v-row justify="center">
       <v-col cols="12">
-        <v-card>
-          <v-card-title class="headline text-center title_style"
-            >Bienvenido a la Biblioteca Online</v-card-title
-          >
-          <v-card-text class="text-center subtitle_style">
-            <p>
-              Explora nuestra colección de libros y encuentra tu próxima lectura
-              emocionante.
-            </p>
-          </v-card-text>
-        </v-card>
+        <p class="headline text-center title_style">
+          Bienvenido a la Biblioteca Online
+        </p>
+
+        <p class="text-center subtitle_style">
+          Explora nuestra colección de libros y encuentra tu próxima lectura
+          emocionante.
+        </p>
       </v-col>
     </v-row>
     <v-row justify="center">

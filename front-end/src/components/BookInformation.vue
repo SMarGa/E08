@@ -25,6 +25,13 @@
             {{ bookInfo.description }}
           </p>
         </v-card-text>
+
+        <v-card-text v-if="bookInfo">
+          <p class="Text_title">Géneros</p>
+          <p class="text">
+            {{ bookInfo.genres.join(", ") }}
+          </p>
+        </v-card-text>
       </v-card>
     </v-row>
 
@@ -56,7 +63,6 @@
       <v-col
         v-for="comment in bookComments"
         :key="comment.author"
-        cols="12"
         xs12
         sm6
         md4
@@ -68,7 +74,7 @@
           >
 
           <v-card-text>
-            <p>{{ comment.comment }}</p>
+            <p class="text">{{ comment.comment }}</p>
           </v-card-text>
         </v-card>
       </v-col>

@@ -25,6 +25,7 @@ describe("Signup Page", () => {
     cy.visit("https://re-w-e08.netlify.app/profile");
     cy.get("[data-cy=delete-btn]").click();
     cy.contains("Usuario eliminado correctamente").should("be.visible");
+    cy.get("[data-cy=continue]").click();
     cy.url().should("include", "/login");
   });
 

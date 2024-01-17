@@ -1,5 +1,5 @@
 <template>
-  <v-app class="bg_image">
+  <v-app>
     <v-card v-if="islogged" class="mx-auto mt-5" outlined>
       <div class="d-flex flex-column align-center justify-center">
         <v-img
@@ -144,10 +144,5 @@ export default {
 
 .login_btn {
   width: 75%;
-}
-
-.bg_image {
-  background: url("@/assets/fondo_rojo.avif");
-  background-size: cover;
 }
 </style>
