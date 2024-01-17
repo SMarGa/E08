@@ -1,23 +1,18 @@
 <template>
   <v-container class="text-center">
     <v-row justify="center">
-      <v-img
-        v-if="bookInfo"
-        :src="bookcover"
-        :id="bookInfo.id"
-        alt="Book Cover"
-        max-width="50%"
-        max-height="50%"
-        class="mt-5 d-flex justify-center bookcover"
-        style="margin: auto"
-      ></v-img>
-    </v-row>
-    <v-row justify="center">
       <v-card class="mt-5 elevation-24 card" outlined>
         <v-card-title v-if="bookInfo" class="title_style">
           {{ bookInfo.book_name }}
         </v-card-title>
-
+        <v-img
+          v-if="bookInfo"
+          :src="bookcover"
+          :id="bookInfo.id"
+          alt="Book Cover"
+          class="mt-5 d-flex justify-center bookcover"
+          style="margin: auto"
+        ></v-img>
         <v-card-text v-if="bookInfo">
           <p class="Text_title">Año de publicación</p>
           <p class="text">
@@ -217,7 +212,9 @@ export default {
 
 .bookcover {
   padding: 1rem;
-  height: 100%;
+
+  max-width: 40%;
+  max-height: 40%;
 }
 
 .title_style {
@@ -226,7 +223,13 @@ export default {
 
 @media (max-width: 800px) {
   .title_style {
-    font-size: 6vw;
+    font-size: 5.5vw;
+  }
+  .bookcover {
+    padding: 1rem;
+
+    max-width: 60%;
+    max-height: 60%;
   }
 
   .text {

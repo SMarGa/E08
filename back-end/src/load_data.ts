@@ -19,7 +19,8 @@ const book_1984 = {
 
 const book_Alicia = {
   id: 12,
-  description: "aaa",
+  description:
+    "Alicia es una niña que ve a un conejo trajeado que consulta un reloj de bolsillo y parece que va con prisa. Intrigada, lo sigue y cae por un agujero. Su caída la llevará a un mundo fantástico y extraño, en el cual nada parece desentonar: un gato que aparece y desaparece, setas y bebidas de efectos curiosísimos, una reina absolutamente cruel... una tropa de personajes estrafalarios para llenar un país de maravillas.",
   book_name: "Alicia en el País de las Maravillas",
   author: "Lewis Carroll",
   genres: [" a ", " a "],
