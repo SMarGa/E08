@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-row>
     <v-card v-if="islogged" class="mx-auto mt-5" outlined>
       <div class="d-flex flex-column align-center justify-center">
         <v-img
@@ -82,7 +82,7 @@
         </v-alert>
       </v-card-text>
     </v-card>
-  </v-app>
+  </v-row>
 </template>
 
 <script lang="ts">
