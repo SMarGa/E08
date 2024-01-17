@@ -41,13 +41,13 @@
       </div>
 
       <v-card-title class="text-h5">Log In</v-card-title>
-      <p class="mx-auto ml-5">Hi there! Nice to see you again.</p>
+      <p class="mx-auto ml-5">¡Hola! Bienvenido de vuelta.</p>
 
       <v-card-text>
         <v-form @submit.prevent="LogIn">
-          <p class="mx-auto text-red">Username</p>
+          <p class="mx-auto text-red">Nombre de usuario</p>
           <v-text-field data-cy="username" v-model="id"></v-text-field>
-          <p class="mx-auto text-red">Password</p>
+          <p class="mx-auto text-red">Contraseña</p>
           <v-text-field
             data-cy="password"
             v-model="password"

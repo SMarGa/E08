@@ -39,16 +39,16 @@
 
         <p>R&W</p>
       </div>
-      <v-card-title class="text-h5">Sign up</v-card-title>
-      <p class="mx-auto ml-5">Hi there! Nice to meet you.</p>
+      <v-card-title class="text-h5">Formulario de registro</v-card-title>
+      <p class="mx-auto ml-5">¡Hola! Encantado de conocerte.</p>
 
       <v-card-text>
         <form @submit.prevent="singUp">
-          <p class="mx-auto text-red">Full Name</p>
+          <p class="mx-auto text-red">Nombre completo</p>
           <v-text-field data-cy="full_name" v-model="full_name"></v-text-field>
-          <p class="mx-auto text-red">User Name</p>
+          <p class="mx-auto text-red">Nombre de usuario</p>
           <v-text-field data-cy="username" v-model="id"></v-text-field>
-          <p class="mx-auto text-red">Password</p>
+          <p class="mx-auto text-red">Contraseña</p>
           <v-text-field
             data-cy="password"
             v-model="password"
@@ -60,7 +60,7 @@
             v-model="mail"
             type="mail"
           ></v-text-field>
-          <p class="mx-auto text-red">Birth Date</p>
+          <p class="mx-auto text-red">Fecha de nacimiento</p>
           <v-text-field
             data-cy="date"
             v-model="birth_date"
@@ -73,7 +73,7 @@
             class="signup_btn"
             type="submit"
           >
-            Sing up
+            Continuar
           </v-btn>
         </form>
 

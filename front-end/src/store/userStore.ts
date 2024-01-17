@@ -250,5 +250,21 @@ export const useUserStore = defineStore("user", {
         };
       }
     },
+
+    async deleteUser() {
+      try {
+        const response = await axios.delete(
+          `${import.meta.env.VITE_API_URL}/users?id=${this._id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        this.clearUserInfo();
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 });

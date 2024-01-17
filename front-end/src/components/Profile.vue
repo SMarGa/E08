@@ -2,7 +2,7 @@
   <v-container class="text-center fill-height">
     <v-row justify="center">
       <v-col>
-        <v-card class="mx-auto mt-5 elevation-24 card" outlined>
+        <v-card v-if="!deleted" class="mx-auto mt-5 elevation-24 card" outlined>
           <v-avatar color="red" size="x-large">
             <v-icon icon="mdi-account-circle"></v-icon>
           </v-avatar>
@@ -22,31 +22,80 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn class="bg-red white--text" @click="eliminarUsuario"
+            <v-btn
+              data-cy="delete-btn"
+              class="bg-red white--text"
+              @click="deleteUser"
               >Eliminar Usuario</v-btn
             >
             <v-spacer></v-spacer>
-            <v-btn class="bg-red white--text" @click="modificarInformacion"
+            <v-btn class="bg-red white--text" @click="updateUser"
               >Modificar información</v-btn
             >
           </v-card-actions>
+        </v-card>
+        <v-card v-else class="mx-auto mt-5" outlined>
+          <div class="d-flex flex-column align-center justify-center">
+            <v-img
+              src="@/assets/logo_libro.png"
+              :width="300"
+              contain
+              class="logo_pr"
+            ></v-img>
+
+            <p>R&W</p>
+          </div>
+          <br />
+          <v-card-title class="text-h5"
+            >Usuario eliminado correctamente</v-card-title
+          >
+          <br />
+          <div class="d-flex justify-center">
+            <v-btn
+              data-cy="continue"
+              color="red"
+              class="login_btn"
+              @click="goHome()"
+            >
+              Continuar
+            </v-btn>
+          </div>
+
+          <br />
         </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { useUserStore } from "@/store/userStore";
-const userStore = useUserStore();
-userStore.reloadInfo();
+import router from "@/router";
+export default {
+  data() {
+    return {
+      deleted: false,
+      userStore: useUserStore(),
+    };
+  },
 
-const eliminarUsuario = () => {
-  // Lógica para eliminar el usuario
-};
+  methods: {
+    async deleteUser() {
+      await this.userStore.deleteUser();
+      this.deleted = true;
+    },
 
-const modificarInformacion = () => {
-  // Lógica para modificar la información del usuario
+    async updateUser() {},
+
+    goHome() {
+      location.reload();
+    },
+  },
+
+  created() {
+    this.userStore = useUserStore();
+    this.userStore.reloadInfo();
+  },
 };
 </script>
 

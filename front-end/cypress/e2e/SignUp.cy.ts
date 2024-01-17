@@ -1,30 +1,38 @@
-describe("Sign Up Test", () => {
+describe("Signup Page", () => {
   beforeEach(() => {
-    // Visit your Vue app or the login page directly
-    cy.visit("http://localhost:3000/signup"); // Update with your actual route
+    cy.visit("https://re-w-e08.netlify.app/signup"); // Update with the correct path
   });
 
-  it("should display the login form", () => {
-    // Check if the login form elements are present
-    cy.get("[data-cy='full_name']").should("be.visible");
-    cy.get("[data-cy='username']").should("be.visible");
-    cy.get("[data-cy='password']").should("be.visible");
-    cy.get("[data-cy='mail']").should("be.visible");
-    cy.get("[data-cy='date']").should("be.visible");
-    cy.get("[data-cy='singup-btn']").should("be.visible");
-  });
+  it("should fill out the registration form and submit successfully", () => {
+    // Fill out the registration form
+    cy.get("[data-cy=full_name]").type("John Doe");
+    cy.get("[data-cy=username]").type("john_doe");
+    cy.get("[data-cy=password]").type("password123");
+    cy.get("[data-cy=mail]").type("john.doe@example.com");
+    cy.get("[data-cy=date]").type("2000-01-01");
 
-  it("should not sing up", () => {
-    cy.get("[data-cy='full_name']").type("Nombre de Prueba");
-    cy.get("[data-cy='username']").type("saul");
-    cy.get("[data-cy='password']").type("contraseña123");
-    cy.get("[data-cy='mail']").type("prueba@correo.com");
-    cy.get("[data-cy=date]").type("2002-01-01");
-
+    // Submit the form
     cy.get("[data-cy=singup-btn]").click();
 
-    cy.on("window:alert", (str) => {
-      expect(str).to.equal("Try an other username");
-    });
+    // Assert the successful login message
+    cy.contains("Inicio de sesión exitoso").should("be.visible");
+    cy.get("[data-cy=continue]").click();
+
+    // Assert that you are redirected to the home page
+    cy.url().should("include", "/home");
+
+    // Delete user to assert replication
+    cy.visit("https://re-w-e08.netlify.app/profile");
+    cy.get("[data-cy=delete-btn]").click();
+    cy.contains("Inicio de sesión exitoso").should("be.visible");
+    cy.url().should("include", "/login");
+  });
+
+  it("should show an alert if any field is missing", () => {
+    // Attempt to submit the form without filling in all fields
+    cy.get("[data-cy=singup-btn]").click();
+
+    // Assert that the missing information alert is displayed
+    cy.contains("Tienes que rellenar todos los campos").should("be.visible");
   });
 });

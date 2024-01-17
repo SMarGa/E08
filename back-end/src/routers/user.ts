@@ -119,7 +119,7 @@ userRouter.patch("/users", async (req, res) => {
   }
 });
 
-// Deletes users by name NOT IMPLEMENTED JUST A TEMPLATE
+// Deletes users
 userRouter.delete("/users", async (req, res) => {
   try {
     if (!req.query.id) {

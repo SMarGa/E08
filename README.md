@@ -9,7 +9,7 @@ This repository houses the deployment files and configurations for the R&W (Read
 
 ## Deployment
 
-This application is automatically deployed whenever there are changes in the `release` branch, thanks to the CI/CD integration of GitHub Actions and Netlify. The deployed URL is https://e-biblio.netlify.app.
+This application is automatically deployed whenever there are changes in the `release` branch, thanks to the CI/CD integration of GitHub Actions and Netlify. The deployed URL is https://re-w-e08.netlify.app/.
 
 If you wish to test the whole web application, you will need an user. You can use the following user:
 
