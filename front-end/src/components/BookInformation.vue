@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-card class="mx-auto mt-5 elevation-24 card" outlined>
         <v-card-title v-if="bookInfo" class="title_style">
-          Información detallada
+          {{ bookInfo.book_name }}
         </v-card-title>
         <v-img
           v-if="bookInfo"
@@ -16,10 +16,6 @@
           style="margin: auto"
         ></v-img>
 
-        <v-card-text v-if="bookInfo">
-          <p class="Text_title">Título</p>
-          <p class="text">{{ bookInfo.book_name }}</p>
-        </v-card-text>
         <v-card-text v-if="bookInfo">
           <p class="Text_title">Año de publicación</p>
           <p class="text">
@@ -199,6 +195,8 @@ export default {
 .card {
   padding: 2%;
   margin: 5%;
+  height: auto;
+  width: auto;
   border-radius: 1rem;
 }
 
