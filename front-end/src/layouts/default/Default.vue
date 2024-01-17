@@ -16,7 +16,7 @@ import DefaultFooter from "./Footer.vue";
 
 <style scoped>
 .bg_image {
-  background: url("/fondo_rojo.avif");
+  background: #ffdfd4;
   background-size: cover;
 }
 </style>

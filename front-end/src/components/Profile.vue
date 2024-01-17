@@ -22,16 +22,23 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn
-              data-cy="delete-btn"
-              class="bg-red white--text"
-              @click="deleteUser"
-              >Eliminar Usuario</v-btn
-            >
-            <v-spacer></v-spacer>
-            <v-btn class="bg-red white--text" @click="updateUser"
-              >Modificar información</v-btn
-            >
+            <v-row justify="center">
+              <v-col class="text-center">
+                <v-col class="text-center">
+                  <v-btn
+                    data-cy="delete-btn"
+                    class="bg-red white--text"
+                    @click="deleteUser"
+                    >Eliminar Usuario</v-btn
+                  >
+                </v-col>
+                <v-col class="text-center">
+                  <v-btn class="bg-red white--text" @click="updateUser"
+                    >Modificar información</v-btn
+                  >
+                </v-col>
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
         <v-card v-else class="mx-auto mt-5" outlined>
@@ -106,7 +113,7 @@ export default {
 }
 
 .title {
-  font-size: 3rem;
+  font-size: 3vw;
   padding: 0.5rem;
 }
 
@@ -131,11 +138,14 @@ export default {
   border-radius: 1rem;
 }
 
-.fill-height {
-  height: 100%;
+.btn {
+  padding: 0.5rem;
 }
 
-.align-center {
-  align-items: center;
+@media (max-width: 800px) {
+  .title {
+    font-size: 6.5vw;
+    padding: 0.5rem;
+  }
 }
 </style>
