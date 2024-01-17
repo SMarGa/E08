@@ -1,17 +1,17 @@
 <template>
-  <v-container class="text-center fill-height">
+  <v-container class="text-center">
     <v-row justify="center">
       <v-card class="mx-auto mt-5 elevation-24 card" outlined>
-        <v-card-title v-if="bookInfo" class="title">
+        <v-card-title v-if="bookInfo" class="title_style">
           Información detallada
         </v-card-title>
         <v-img
           v-if="bookInfo"
-          :src="`${bookInfo.bookcover}`"
+          :src="`${assets_url}${bookInfo.bookcover}`"
           :id="bookInfo.id"
           alt="Book Cover"
-          max-width="200"
-          max-height="200"
+          max-width="40%"
+          max-height="40%"
           class="d-flex justify-center bookcover"
           style="margin: auto"
         ></v-img>
@@ -33,8 +33,8 @@
     </v-row>
 
     <v-row justify="center">
-      <v-card class="text-center elevation-15">
-        <v-card-title class="title">Añade tu comentario</v-card-title>
+      <v-card class="mx-auto mt-5 elevation-24 card">
+        <v-card-title class="title_style">Añade tu comentario</v-card-title>
 
         <v-card-text>
           <form @submit.prevent="postComment">
@@ -46,13 +46,21 @@
         </v-card-text>
       </v-card>
     </v-row>
-  </v-container>
 
-  <v-container>
-    <v-row>
-      <v-col v-for="comment in bookComments" :key="comment.id" cols="12" md="4">
-        <v-card class="text-center elevation-15">
-          <v-card-title>Usuario: {{ comment.author }}</v-card-title>
+    <v-row justify="center">
+      <v-col
+        v-for="comment in bookComments"
+        :key="comment.id"
+        cols="12"
+        xs12
+        sm6
+        md4
+        class="text-center"
+      >
+        <v-card class="mx-auto mt-5 card">
+          <v-card-title
+            >Usuario {{ comment.author }} ha comentado:</v-card-title
+          >
 
           <v-card-text>
             <p>{{ comment.comment }}</p>
@@ -68,7 +76,7 @@ import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store/userStore";
 const UserStore = useUserStore();
-
+const assets_url = `${import.meta.env.VITE_ASSETS_URL}`;
 const userID = UserStore._id;
 interface book_response {
   id: number;
@@ -91,6 +99,7 @@ export default {
       bookInfo,
       bookComments,
       userID,
+      assets_url,
       comment: "",
       warning: false,
       warning_message: "",
@@ -179,46 +188,51 @@ export default {
 };
 </script>
 <style scoped>
-.logo_pr {
-  max-width: 5%;
-  max-height: 5%;
-}
-
 .title {
   font-size: 3rem;
   padding: 1.5rem;
 }
 
-.subtitle {
-  font-size: 1rem;
-  margin-bottom: 0.8rem;
-}
-
 .card {
-  padding: 2rem;
+  padding: 2%;
+  margin: 5%;
   border-radius: 1rem;
 }
 
 .text {
-  font-size: 1.2rem;
+  font-size: 1.9vw;
   margin-bottom: 0.5rem;
 }
 .Text_title {
   color: red;
-  font-size: 1.5rem;
-  padding: 1rem;
+  font-size: 2.1vw;
+  padding: 1.3rem;
   border-radius: 1rem;
-}
-
-.fill-height {
-  height: 100%;
-}
-
-.align-center {
-  align-items: center;
 }
 
 .bookcover {
   padding: 1rem;
+  height: 100%;
+}
+
+.title_style {
+  font-size: 2.7vw;
+}
+
+@media (max-width: 800px) {
+  .title_style {
+    font-size: 6vw;
+  }
+
+  .text {
+    font-size: 5vw;
+    margin-bottom: 0.5rem;
+  }
+  .Text_title {
+    color: red;
+    font-size: 5.5vw;
+    padding: 1.3rem;
+    border-radius: 1rem;
+  }
 }
 </style>

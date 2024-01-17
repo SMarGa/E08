@@ -91,7 +91,10 @@ describe("Group Routes", () => {
           admin: new User(defaultUser1),
         });
       expect(response.status).to.equal(400);
-      expect(response.body).to.have.property("message", "At least one valid field is required for update");
+      expect(response.body).to.have.property(
+        "message",
+        "At least one valid field is required for update"
+      );
     });
     it("It should update data", async () => {
       const response = await request(app)
@@ -127,7 +130,6 @@ describe("Group Routes", () => {
       const response = await request(app).delete("/groups/0");
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property("message", "Group deleted");
-      await new User(defaultUser).save();
     });
   });
 });

@@ -1,126 +1,84 @@
 <template>
- <v-app class="bg_image">
-    <v-container>
-      <div class="filter-bar mb-1  pa-2 white-bg">
-        <div class="text-h6">
-          <v-btn variant="text" icon="mdi-filter" ></v-btn>Filter
-        </div>
-        <v-row justify="end" align="center">
-          <v-col sm="6" md="6">
-            <!-- Barra de búsqueda -->
-            <v-text-field append-icon="mdi-magnify" label="Search"></v-text-field>
-          </v-col>
-        </v-row>
-      </div>
-    <v-row no-gutters>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/ElPrincipito_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/Alicia_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/1984_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/TodoLoQNuncaFuimos_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/SombraHueso_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/MobyDick_bookcover.jpeg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/AnaFrank_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/CodigoDaVinci_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="pa-2 ma-2 d-flex align-center justify-center">
-          <v-img
-            src="@/assets/bookcovers/Hobbit_bookcover.jpg"
-            contain
-            class="bookcover_pr"
-          ></v-img>
-        </v-sheet>
+  <v-container fluid>
+    <v-row justify="center">
+      <v-col cols="12">
+        <v-card>
+          <v-card-title class="headline text-center title_style"
+            >Bienvenido a la Biblioteca Online</v-card-title
+          >
+          <v-card-text class="text-center subtitle_style">
+            <p>
+              Explora nuestra colección de libros y encuentra tu próxima lectura
+              emocionante.
+            </p>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
-    </v-container>
-  </v-app>
+    <v-row justify="center">
+      <v-col class="text-center">
+        <v-col class="text-center">
+          <p class="text_style">Explora los libros que tenemos disponibles</p>
+          <v-btn rounded="xl" class="btn_style" color="red" stacked to="/books">
+            <v-icon icon="mdi-book-open-variant"> </v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="text-center">
+          <p class="text_style">
+            ¿Ya tienes cuenta? Entra para poder comentar en libros
+          </p>
+          <v-btn rounded="xl" class="btn_style" color="red" stacked to="/login">
+            <v-icon icon="mdi-login"> </v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="text-center">
+          <p class="text_style">¿No tienes cuenta? ¡Registrate!</p>
+          <v-btn
+            rounded="xl"
+            class="btn_style"
+            color="red"
+            stacked
+            to="/signup"
+          >
+            <v-icon icon="mdi-account-plus-outline"> </v-icon>
+          </v-btn>
+        </v-col>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts" setup></script>
 
 <style scoped>
-
-.filter-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+.btn_style {
+  size: 5vw;
+}
+.title_style {
+  font-size: 2.7vw;
 }
 
-.bookcover_pr {
-  width: 300px;
-  height: 300px;
+.subtitle_style {
+  font-size: 2.1vw;
 }
 
-.bg_image {
-  background: url("@/assets/fondo_rojo.avif");
-  background-size: cover;
+.text_style {
+  font-size: 2.2vw;
 }
 
-.white-bg {
-  background-color: white;
+@media (max-width: 800px) {
+  .btn_style {
+    size: 6vw;
+  }
+  .title_style {
+    font-size: 5.5vw;
+  }
+
+  .subtitle_style {
+    font-size: 4.9vw;
+  }
+  .text_style {
+    font-size: 5vw;
+  }
 }
 </style>

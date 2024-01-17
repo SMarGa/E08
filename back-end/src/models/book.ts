@@ -64,7 +64,7 @@ const BookSchema = new Schema<BookDocumentInterface>({
     trim: true,
     unique: true,
     validate: (value: string) => {
-      if (/^\.\.\/src\/assets\/bookcover\/.*\.(jpg|jpeg)$/.test(value)) {
+      if (!/.*\.(jpe?g)$/.test(value)) {
         throw new Error("Not a valid route");
       }
     },

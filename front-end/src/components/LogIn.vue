@@ -88,8 +88,7 @@
 <script lang="ts">
 import { useUserStore } from "@/store/userStore";
 import router from "@/router";
-import PopUpLogIn from "@/components/PopUpLogIn.vue";
-import { Ref } from "vue";
+
 const UserStore = useUserStore();
 
 export default {
@@ -100,7 +99,6 @@ export default {
     missing_info: false,
     alert_message: "",
     show_alert: false,
-    logged: false,
   }),
 
   computed: {
@@ -128,16 +126,12 @@ export default {
         return;
       }
       this.isLoading = false;
-      this.logged = true;
       location.reload();
       return;
     },
     goHome() {
       router.push("/home");
     },
-  },
-  components: {
-    PopUpLogIn,
   },
 };
 </script>

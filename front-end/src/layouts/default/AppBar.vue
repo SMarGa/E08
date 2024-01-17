@@ -81,11 +81,11 @@ import { defineComponent } from "vue";
 import { useUserStore } from "@/store/userStore";
 import router from "@/router";
 
-const userInfo = useUserStore();
+const UserStore = useUserStore();
 
 export default defineComponent({
   data: () => ({
-    userInfo: userInfo,
+    UserStore: UserStore,
     router: router,
     drawer: false,
     group: null,
@@ -133,13 +133,13 @@ export default defineComponent({
 
   computed: {
     userIsLogged() {
-      return !this.userInfo.checkExpired();
+      return !this.UserStore.checkExpired();
     },
   },
 
   methods: {
     logOut() {
-      userInfo.clearUserInfo();
+      UserStore.clearUserInfo();
       location.reload();
     },
   },

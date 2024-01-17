@@ -7,7 +7,7 @@
         <v-card class="text-center elevation-15">
           <v-card-title>Título: {{ book.book_name }}</v-card-title>
           <v-img
-            :src="`${book.bookcover}`"
+            :src="`${assets_url}${book.bookcover}`"
             :id="book.id"
             alt="Book Cover"
             max-width="200"
@@ -40,6 +40,8 @@ import { ref, onMounted } from "vue";
 import { useField, useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/store/userStore";
+const assets_url = `${import.meta.env.VITE_ASSETS_URL}`;
+
 interface book_response {
   id: number;
   description: string;

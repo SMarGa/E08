@@ -120,7 +120,6 @@ describe("Loan Routes", () => {
       const response = await request(app).delete("/loans/0");
       expect(response.status).to.equal(200);
       expect(response.body).to.have.property("message", "Loan deleted");
-      await new User(defaultUser).save();
     });
   });
 });

@@ -2,6 +2,10 @@ import { app } from "./app.js";
 import { Book, BookDocumentInterface } from "./models/book.js";
 import request from "supertest";
 
+const response = await Book.deleteMany();
+
+console.log(response);
+
 const book_1984 = {
   id: 11,
   description: "aaa",
@@ -10,7 +14,7 @@ const book_1984 = {
   genres: [" a ", " a "],
   release_year: 1949,
   editorial: "DEBOLSILLO",
-  bookcover: "../src/assets/bookcovers/1984_bookcover.jpg",
+  bookcover: "1984_bookcover.jpg",
 };
 
 const book_Alicia = {
@@ -21,7 +25,7 @@ const book_Alicia = {
   genres: [" a ", " a "],
   release_year: 1865,
   editorial: "Gibraudo",
-  bookcover: "../src/assets/bookcovers/Alicia_bookcover.jpg",
+  bookcover: "Alicia_bookcover.jpg",
 };
 
 const book_AnaFrank = {
@@ -32,7 +36,7 @@ const book_AnaFrank = {
   genres: [" a ", " a "],
   release_year: 1949,
   editorial: "Publimexi",
-  bookcover: "../src/assets/bookcovers/AnaFrank_bookcover.jpg",
+  bookcover: "AnaFrank_bookcover.jpg",
 };
 
 const book_CodigoDaVinci = {
@@ -43,7 +47,7 @@ const book_CodigoDaVinci = {
   genres: [" a ", " a "],
   release_year: 2003,
   editorial: "Planeta Internacional",
-  bookcover: "../src/assets/bookcovers/CodigoDaVinci_bookcover.jpg",
+  bookcover: "CodigoDaVinci_bookcover.jpg",
 };
 
 const book_ElPrincipito = {
@@ -54,7 +58,7 @@ const book_ElPrincipito = {
   genres: [" a ", " a "],
   release_year: 1943,
   editorial: "Salamandra",
-  bookcover: "../src/assets/bookcovers/ElPrincipito_bookcover.jpg",
+  bookcover: "ElPrincipito_bookcover.jpg",
 };
 
 const book_Hobbit = {
@@ -65,7 +69,7 @@ const book_Hobbit = {
   genres: [" a ", " a "],
   release_year: 1937,
   editorial: "Minotauro",
-  bookcover: "../src/assets/bookcovers/Hobbit_bookcover.jpg",
+  bookcover: "Hobbit_bookcover.jpg",
 };
 
 const book_MobyDick = {
@@ -76,7 +80,7 @@ const book_MobyDick = {
   genres: [" a ", " a "],
   release_year: 1851,
   editorial: "Alianza editorial",
-  bookcover: "../src/assets/bookcovers/MobyDick_bookcover.jpeg",
+  bookcover: "MobyDick_bookcover.jpeg",
 };
 
 const book_SombraHueso = {
@@ -87,7 +91,7 @@ const book_SombraHueso = {
   genres: [" a ", " a "],
   release_year: 2012,
   editorial: "Hidra",
-  bookcover: "../src/assets/bookcovers/SombraHueso_bookcover.jpg",
+  bookcover: "SombraHueso_bookcover.jpg",
 };
 
 const book_TodoLoQNuncaFuimos = {
@@ -98,7 +102,7 @@ const book_TodoLoQNuncaFuimos = {
   genres: [" a ", " a "],
   release_year: 2019,
   editorial: "Planeta",
-  bookcover: "../src/assets/bookcovers/TodoLoQNuncaFuimos_bookcover.jpg",
+  bookcover: "TodoLoQNuncaFuimos_bookcover.jpg",
 };
 
 const books = [
