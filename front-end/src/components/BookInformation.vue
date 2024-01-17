@@ -1,7 +1,7 @@
 <template>
   <v-container class="text-center">
     <v-row justify="center">
-      <v-card class="mx-auto mt-5 elevation-24 card" outlined>
+      <v-card class="mt-5 elevation-24 card" outlined>
         <v-card-title v-if="bookInfo" class="title_style">
           {{ bookInfo.book_name }}
         </v-card-title>
@@ -10,9 +10,9 @@
           :src="`${assets_url}${bookInfo.bookcover}`"
           :id="bookInfo.id"
           alt="Book Cover"
-          max-width="40%"
-          max-height="40%"
-          class="d-flex justify-center bookcover"
+          max-width="55%"
+          max-height="55%"
+          class="mt-5 d-flex justify-center bookcover"
           style="margin: auto"
         ></v-img>
 
@@ -194,9 +194,7 @@ export default {
 
 .card {
   padding: 2%;
-  margin: 5%;
-  height: auto;
-  width: auto;
+
   border-radius: 1rem;
 }
 
